@@ -1,8 +1,8 @@
 import SwiftUI
 
 enum AppTheme {
-    static let accent = Color(red: 0.95, green: 0.08, blue: 0.10)
-    static let accentGlow = Color(red: 1.00, green: 0.16, blue: 0.18)
+    static let accent = Color(red: 0.86, green: 0.64, blue: 0.16)
+    static let accentGlow = Color(red: 1.00, green: 0.78, blue: 0.24)
     static let pageBackground = Color.black
     static let consoleBackground = Color(red: 0.055, green: 0.055, blue: 0.065)
     static let cardBackground = Color(red: 0.095, green: 0.095, blue: 0.11)
@@ -83,7 +83,7 @@ struct AppLogo: View {
 
     var body: some View {
         Group {
-            if let logo = UIImage(named: "GllyziLogo") {
+            if let logo = UIImage(named: "LaCosaNostraLogo") {
                 Image(uiImage: logo)
                     .resizable()
                     .scaledToFill()
