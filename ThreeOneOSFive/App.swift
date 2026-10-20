@@ -10,7 +10,7 @@ struct ThreeOneOSFiveApp: App {
     @StateObject private var fileOperationCoordinator = FileOperationCoordinator()
     @StateObject private var remoteContentStore = RemoteContentStore()
     @State private var showOnboarding = false
-    @AppStorage("gllyzi.license.supabaseUnlocked") private var licenseUnlocked = false
+    @AppStorage("lcn.license.supabaseUnlocked") private var licenseUnlocked = false
     @State private var licenseMessage = ""
     @State private var licenseCheckInFlight = false
     @State private var licenseValidationPending = true
@@ -21,7 +21,7 @@ struct ThreeOneOSFiveApp: App {
 
     init() {
         setupLogCapture()
-        log("app: Glizzy Net launching - iOS \(AppInfo.osVersion) (\(AppInfo.osBuild)) \(AppInfo.machineName)")
+        log("app: LA COSA NOSTRA launching - iOS \(AppInfo.osVersion) (\(AppInfo.osBuild)) \(AppInfo.machineName)")
     }
 
     private var language: AppLanguage {
@@ -37,7 +37,7 @@ struct ThreeOneOSFiveApp: App {
 
     private func refreshLicenseStatus() {
         let deviceID = DeviceInstallationID.current()
-        let storedKey = UserDefaults.standard.string(forKey: "gllyzi.license.key")?.normalizedLicenseKey ?? ""
+        let storedKey = UserDefaults.standard.string(forKey: "lcn.license.key")?.normalizedLicenseKey ?? ""
         guard !storedKey.isEmpty else {
             licenseValidationPending = false
             if licenseUnlocked {
@@ -57,9 +57,9 @@ struct ThreeOneOSFiveApp: App {
                     licenseValidationPending = false
                     if response.success {
                         let defaults = UserDefaults.standard
-                        defaults.set(storedKey, forKey: "gllyzi.license.key")
-                        defaults.set(deviceID, forKey: "gllyzi.license.device")
-                        defaults.set(true, forKey: "gllyzi.license.supabaseUnlocked")
+                        defaults.set(storedKey, forKey: "lcn.license.key")
+                        defaults.set(deviceID, forKey: "lcn.license.device")
+                        defaults.set(true, forKey: "lcn.license.supabaseUnlocked")
                         licenseMessage = ""
                         licenseUnlocked = true
                         LicenseEntitlements.store(response.capabilities, expiresAt: response.expiresAt)
@@ -85,7 +85,7 @@ struct ThreeOneOSFiveApp: App {
 
     private func lockStoredLicense(message: String) {
         let defaults = UserDefaults.standard
-        defaults.set(false, forKey: "gllyzi.license.supabaseUnlocked")
+        defaults.set(false, forKey: "lcn.license.supabaseUnlocked")
         LicenseEntitlements.clear()
         licenseMessage = message
         licenseValidationPending = false
@@ -138,7 +138,7 @@ struct ThreeOneOSFiveApp: App {
                     }
                 }
             }
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
             .displayIdentityAttribution(isPresented: $showAttribution, enabled: licenseUnlocked && !showOnboarding)
             .sheet(isPresented: $showAttribution) {
                 DisplayAttributionSheet()
@@ -285,10 +285,10 @@ private struct LicenseCheckingView: View {
                 AppLogo(size: 82)
                     .shadow(color: Color.black.opacity(0.12), radius: 18)
                 ProgressView()
-                    .tint(Color.black)
+                    .tint(AppTheme.accentGlow)
                 Text("Verificando key")
                     .font(.headline)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(AppTheme.accentGlow)
                 Text("Confirmando acceso seguro")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -307,7 +307,7 @@ private struct GreegLicenseView: View {
     let onSuccess: () -> Void
 
     init(initialMessage: String = "", onSuccess: @escaping () -> Void) {
-        _key = State(initialValue: UserDefaults.standard.string(forKey: "gllyzi.license.key")?.normalizedLicenseKey ?? "")
+        _key = State(initialValue: UserDefaults.standard.string(forKey: "lcn.license.key")?.normalizedLicenseKey ?? "")
         _messageText = State(initialValue: initialMessage)
         self.onSuccess = onSuccess
     }
@@ -316,9 +316,9 @@ private struct GreegLicenseView: View {
         ZStack {
             LinearGradient(
                 colors: [
+                    AppTheme.consoleBackground,
                     AppTheme.pageBackground,
-                    Color.white,
-                    AppTheme.pageBackground
+                    AppTheme.consoleBackground
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -330,9 +330,9 @@ private struct GreegLicenseView: View {
                     .shadow(color: Color.black.opacity(0.12), radius: 24)
 
                 VStack(spacing: 7) {
-                    Text("Glizzy Net")
+                    Text("LA COSA NOSTRA")
                         .font(.system(size: 31, weight: .black, design: .rounded))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(AppTheme.accentGlow)
                     Text("Acceso privado")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -341,24 +341,24 @@ private struct GreegLicenseView: View {
                 VStack(spacing: 12) {
                     HStack(spacing: 10) {
                         Image(systemName: "key.fill")
-                            .foregroundStyle(.black)
-                        TextField("GLIZZY-ABCD-EF12-3456", text: $key)
+                            .foregroundStyle(AppTheme.accentGlow)
+                        TextField("LCN-ABCD-EF12-3456", text: $key)
                             .textInputAutocapitalization(.characters)
                             .autocorrectionDisabled()
-                            .foregroundStyle(.black)
+                            .foregroundStyle(AppTheme.accentGlow)
                             .disabled(isLoading || didActivate)
                     }
                     .padding(.horizontal, 16)
                     .frame(height: 54)
-                    .background(Color.white, in: RoundedRectangle(cornerRadius: 15))
-                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(Color.black.opacity(0.14)))
+                    .background(AppTheme.cardBackground, in: RoundedRectangle(cornerRadius: 15))
+                    .overlay(RoundedRectangle(cornerRadius: 15).stroke(AppTheme.accent.opacity(0.40)))
                     .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 6)
 
                     Button(action: primaryAction) {
                         HStack(spacing: 10) {
                             if isLoading {
                                 ProgressView()
-                                    .tint(.white)
+                                    .tint(.black)
                             } else {
                                 Image(systemName: didActivate ? "checkmark.circle.fill" : "arrow.right")
                             }
@@ -367,8 +367,8 @@ private struct GreegLicenseView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 54)
-                        .background(Color.black, in: RoundedRectangle(cornerRadius: 15))
-                        .foregroundStyle(.white)
+                        .background(AppTheme.accentGlow, in: RoundedRectangle(cornerRadius: 15))
+                        .foregroundStyle(.black)
                     }
                     .disabled(isLoading)
 
@@ -386,7 +386,7 @@ private struct GreegLicenseView: View {
                     .foregroundStyle(.secondary)
 
                 Spacer()
-                Text("Glizzy Net - CONTROL PRIVADO")
+                Text("LA COSA NOSTRA - CONTROL PRIVADO")
                     .font(.caption2.weight(.semibold))
                     .tracking(2)
                     .foregroundStyle(.secondary)
@@ -425,9 +425,9 @@ private struct GreegLicenseView: View {
 
             if response.success {
                 let defaults = UserDefaults.standard
-                defaults.set(normalized, forKey: "gllyzi.license.key")
-                defaults.set(deviceID, forKey: "gllyzi.license.device")
-                defaults.set(true, forKey: "gllyzi.license.supabaseUnlocked")
+                defaults.set(normalized, forKey: "lcn.license.key")
+                defaults.set(deviceID, forKey: "lcn.license.device")
+                defaults.set(true, forKey: "lcn.license.supabaseUnlocked")
                 LicenseEntitlements.store(response.capabilities, expiresAt: response.expiresAt)
                 didActivate = true
                 onSuccess()
@@ -439,15 +439,15 @@ private struct GreegLicenseView: View {
 }
 
 enum SupabaseLicenseConfig {
-    static let projectURL = URL(string: "https://zffwtixmbuctinffojwe.supabase.co")!
-    static let publishableKey = "sb_publishable_6xRmOLD0Cw4Dtwn460l_Zw_Y7khT6wA"
+    static let projectURL = URL(string: "https://ephdqppououcyatisnhi.supabase.co")!
+    static let publishableKey = "sb_publishable_uKM_0T7PjoC8ppwxjhgBYg_WaYR6KUF"
 }
 
 enum LicenseEntitlements {
     static let specialAssetIndexer = "special_assetindexer"
 
-    private static let capabilitiesKey = "gllyzi.license.capabilities"
-    private static let expiresAtKey = "gllyzi.license.expiresAt"
+    private static let capabilitiesKey = "lcn.license.capabilities"
+    private static let expiresAtKey = "lcn.license.expiresAt"
 
     static func store(_ capabilities: [String], expiresAt: String?, defaults: UserDefaults = .standard) {
         let normalized = capabilities
@@ -628,9 +628,9 @@ private final class SupabaseLicenseClient {
 }
 
 enum DeviceInstallationID {
-    private static let service = "com.apple.mobile.MobileHouseArrest.gllyzi-license"
+    private static let service = "com.apple.mobile.MobileHouseArrest.lcn-license"
     private static let account = "installation-id"
-    private static let fallbackKey = "gllyzi.license.installationID"
+    private static let fallbackKey = "lcn.license.installationID"
 
     static func current(defaults: UserDefaults = .standard) -> String {
         if let existing = readFromKeychain(), !existing.isEmpty {
