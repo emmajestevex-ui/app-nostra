@@ -46,7 +46,7 @@ struct RemoteContentView: View {
                 }
             }
             .background(AppTheme.pageBackground.ignoresSafeArea())
-            .navigationTitle("Centro Glizzy Net")
+            .navigationTitle("Centro LA COSA NOSTRA")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -74,7 +74,7 @@ struct RemoteContentView: View {
             Image(systemName: "icloud.and.arrow.down")
                 .font(.system(size: AppTheme.emptyIconSize, weight: .light))
                 .foregroundStyle(AppTheme.accent)
-            Text("No hay archivos de Glizzy Net")
+            Text("No hay archivos de LA COSA NOSTRA")
                 .font(.headline)
             Text("Publica desde el panel y toca Sincronizar para bajarlos.")
                 .font(.subheadline)
@@ -84,7 +84,7 @@ struct RemoteContentView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 54)
         .padding(.horizontal, 20)
-        .background(GLLYZIRemotePanel())
+        .background(LCNRemotePanel())
     }
 
     private var searchEmptyState: some View {
@@ -102,7 +102,7 @@ struct RemoteContentView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 54)
         .padding(.horizontal, 20)
-        .background(GLLYZIRemotePanel())
+        .background(LCNRemotePanel())
     }
 }
 
@@ -164,7 +164,7 @@ private struct RemoteContentStatusCard: View {
             }
         }
         .padding(16)
-        .background(GLLYZIRemotePanel())
+        .background(LCNRemotePanel())
     }
 }
 
@@ -210,7 +210,7 @@ private struct RemoteContentFileRow: View {
             }
         }
         .padding(14)
-        .background(GLLYZIRemotePanel(cornerRadius: 18))
+        .background(LCNRemotePanel(cornerRadius: 18))
         .overlay(alignment: .leading) {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
                 .fill(tint)
@@ -221,7 +221,7 @@ private struct RemoteContentFileRow: View {
 
     private var displayCategory: String {
         let normalized = file.category
-            .replacingOccurrences(of: "gllyzi-", with: "")
+            .replacingOccurrences(of: "lcn-", with: "")
             .replacingOccurrences(of: "-", with: " ")
         return normalized.isEmpty ? "archivos" : normalized
     }
@@ -235,9 +235,9 @@ private struct RemoteContentFileRow: View {
 
     private var tint: Color {
         switch file.category.lowercased() {
-        case "images", "image", "media", "gllyzi-shaders":
+        case "images", "image", "media", "lcn-shaders":
             return AppTheme.mint
-        case "configs", "config", "gllyzi-configs":
+        case "configs", "config", "lcn-configs":
             return AppTheme.amber
         default:
             return AppTheme.accentGlow
@@ -245,7 +245,7 @@ private struct RemoteContentFileRow: View {
     }
 }
 
-private struct GLLYZIRemotePanel: View {
+private struct LCNRemotePanel: View {
     var cornerRadius: CGFloat = 22
 
     var body: some View {
@@ -253,8 +253,8 @@ private struct GLLYZIRemotePanel: View {
                 .fill(
                     LinearGradient(
                         colors: [
-                        Color.white,
-                        Color(red: 0.965, green: 0.962, blue: 0.952)
+                        AppTheme.cardBackground,
+                        AppTheme.pageBackground
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
@@ -265,9 +265,9 @@ private struct GLLYZIRemotePanel: View {
                     .stroke(
                         LinearGradient(
                             colors: [
-                                Color.black.opacity(0.16),
-                                Color.black.opacity(0.06),
-                                .white.opacity(0.30)
+                                AppTheme.accent.opacity(0.45),
+                                AppTheme.accent.opacity(0.12),
+                                Color.black.opacity(0.55)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing

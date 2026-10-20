@@ -35,7 +35,7 @@ struct PatchProjectsView: View {
             VStack(spacing: 0) {
                 AppSearchField(
                     text: $searchText,
-                    prompt: "Buscar archivos Glizzy Net",
+                    prompt: "Buscar archivos de LA COSA NOSTRA",
                     clearLabel: language.text("common.clear")
                 )
                 ScrollView {
@@ -47,14 +47,14 @@ struct PatchProjectsView: View {
                         } else if filteredItems.isEmpty && !store.isBusy {
                             searchEmptyState
                         } else {
-                            GLLYZIFilesSectionTitle("Archivos integrados")
+                            LCNFilesSectionTitle("Archivos integrados")
                             ForEach(filteredItems) { item in
                                 itemRow(item)
                             }
                         }
 
                         if !remotePatchFiles.isEmpty {
-                            GLLYZIFilesSectionTitle("Actualizaciones remotas")
+                            LCNFilesSectionTitle("Actualizaciones remotas")
                             ForEach(remotePatchFiles) { file in
                                 RemotePatchRow(file: file)
                             }
@@ -66,7 +66,7 @@ struct PatchProjectsView: View {
                 }
             }
             .background(AppTheme.pageBackground.ignoresSafeArea())
-            .navigationTitle("Archivos Glizzy Net")
+            .navigationTitle("Archivos de LA COSA NOSTRA")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if store.isBusy {
@@ -124,7 +124,7 @@ struct PatchProjectsView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 54)
         .padding(.horizontal, 20)
-        .background(GLLYZIFilePanel())
+        .background(LCNFilePanel())
     }
 
     private var searchEmptyState: some View {
@@ -142,11 +142,11 @@ struct PatchProjectsView: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 54)
         .padding(.horizontal, 20)
-        .background(GLLYZIFilePanel())
+        .background(LCNFilePanel())
     }
 }
 
-private struct GLLYZIFilesSectionTitle: View {
+private struct LCNFilesSectionTitle: View {
     let title: String
 
     init(_ title: String) {
@@ -169,7 +169,7 @@ private struct PatchListHeader: View {
         HStack(spacing: 14) {
             AppLogo(size: 46)
             VStack(alignment: .leading, spacing: 4) {
-                Text("Centro Glizzy Net")
+                Text("Centro LA COSA NOSTRA")
                     .font(.title3.weight(.black))
                 Text("Aimbots y archivos privados")
                     .font(.caption)
@@ -188,7 +188,7 @@ private struct PatchListHeader: View {
             }
         }
         .padding(16)
-        .background(GLLYZIFilePanel())
+        .background(LCNFilePanel())
         .overlay(alignment: .bottomLeading) {
             Capsule()
                 .fill(
@@ -254,7 +254,7 @@ private struct PatchProjectRow: View {
                 .foregroundStyle(.tertiary)
         }
         .padding(14)
-        .background(GLLYZIFilePanel(cornerRadius: 18))
+        .background(LCNFilePanel(cornerRadius: 18))
         .overlay(alignment: .leading) {
             RoundedRectangle(cornerRadius: 2, style: .continuous)
                 .fill(style.tint)
@@ -302,11 +302,11 @@ private struct RemotePatchRow: View {
             }
         }
         .padding(14)
-        .background(GLLYZIFilePanel(cornerRadius: 18))
+        .background(LCNFilePanel(cornerRadius: 18))
     }
 }
 
-private struct GLLYZIFilePanel: View {
+private struct LCNFilePanel: View {
     var cornerRadius: CGFloat = 22
 
     var body: some View {
@@ -314,8 +314,8 @@ private struct GLLYZIFilePanel: View {
                 .fill(
                     LinearGradient(
                         colors: [
-                        Color.white,
-                        Color(red: 0.965, green: 0.962, blue: 0.952)
+                        AppTheme.cardBackground,
+                        AppTheme.pageBackground
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
@@ -326,9 +326,9 @@ private struct GLLYZIFilePanel: View {
                     .stroke(
                         LinearGradient(
                             colors: [
-                                Color.black.opacity(0.16),
-                                Color.black.opacity(0.06),
-                                .white.opacity(0.30)
+                                AppTheme.accent.opacity(0.45),
+                                AppTheme.accent.opacity(0.12),
+                                Color.black.opacity(0.55)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -415,14 +415,14 @@ private struct PatchProjectDetailView: View {
                 VStack(spacing: 18) {
                     PatchDetailHero(project: project, style: detailStyle, isApplied: receipt != nil)
 
-                    Link(destination: URL(string: "https://www.tiktok.com/@glizzynetx?_r=1&_t=ZS-99vZ2aOwzau")!) {
+                    Link(destination: URL(string: "https://www.tiktok.com")!) {
                         HStack(spacing: 12) {
                             AppRowIcon(systemName: "play.rectangle.fill", tint: AppTheme.accentGlow, symbolSize: 18, frameSize: 42)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("TikTok oficial")
                                     .font(.headline)
                                     .foregroundStyle(.primary)
-                                Text("@glizzynetx")
+                                Text("LA COSA NOSTRA")
                                     .font(.caption.weight(.medium))
                                     .foregroundStyle(.secondary)
                             }
@@ -432,7 +432,7 @@ private struct PatchProjectDetailView: View {
                                 .foregroundStyle(AppTheme.accentGlow)
                         }
                         .padding(16)
-                        .background(GLLYZIFilePanel(cornerRadius: 18))
+                        .background(LCNFilePanel(cornerRadius: 18))
                     }
 
                     VStack(spacing: 12) {
@@ -627,10 +627,10 @@ private struct PatchDetailHero: View {
                     .foregroundStyle(isApplied ? AppTheme.mint : AppTheme.accentGlow)
             }
             .padding(14)
-            .background(Color.white.opacity(0.045), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .background(AppTheme.cardBackground.opacity(0.72), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
         .padding(18)
-        .background(GLLYZIFilePanel())
+        .background(LCNFilePanel())
     }
 }
 
@@ -661,14 +661,14 @@ private struct PatchActionButtonContent: View {
 private struct PatchPrimaryActionStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundStyle(.white)
+            .foregroundStyle(.black)
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .fill(
                         LinearGradient(
                             colors: configuration.isPressed
-                                ? [Color.black.opacity(0.78), Color(red: 0.25, green: 0.25, blue: 0.27).opacity(0.78)]
-                                : [Color.black, Color(red: 0.22, green: 0.22, blue: 0.24)],
+                                ? [AppTheme.accent.opacity(0.78), AppTheme.accentGlow.opacity(0.78)]
+                                : [AppTheme.accent, AppTheme.accentGlow],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -686,7 +686,7 @@ private struct PatchSecondaryActionStyle: ButtonStyle {
             .foregroundStyle(isEnabled ? AppTheme.accentGlow : .secondary)
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(Color.white.opacity(isEnabled ? (configuration.isPressed ? 0.10 : 0.065) : 0.035))
+                    .fill(AppTheme.accent.opacity(isEnabled ? (configuration.isPressed ? 0.18 : 0.10) : 0.035))
                     .overlay(
                         RoundedRectangle(cornerRadius: 18, style: .continuous)
                             .stroke(AppTheme.accentGlow.opacity(isEnabled ? 0.32 : 0.10), lineWidth: 1)

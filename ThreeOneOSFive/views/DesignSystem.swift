@@ -1,13 +1,13 @@
 import SwiftUI
 
 enum AppTheme {
-    static let accent = Color(red: 0.08, green: 0.08, blue: 0.09)
-    static let accentGlow = Color(red: 0.00, green: 0.00, blue: 0.00)
-    static let mint = Color(red: 0.08, green: 0.68, blue: 0.34)
-    static let amber = Color(red: 0.82, green: 0.52, blue: 0.12)
-    static let pageBackground = Color(red: 0.965, green: 0.962, blue: 0.952)
-    static let consoleBackground = Color(red: 0.055, green: 0.055, blue: 0.060)
-    static let cardBackground = Color.white
+    static let accent = Color(red: 0.86, green: 0.64, blue: 0.16)
+    static let accentGlow = Color(red: 1.00, green: 0.78, blue: 0.24)
+    static let mint = Color(red: 0.95, green: 0.70, blue: 0.18)
+    static let amber = Color(red: 0.72, green: 0.42, blue: 0.06)
+    static let pageBackground = Color(red: 0.018, green: 0.018, blue: 0.022)
+    static let consoleBackground = Color.black
+    static let cardBackground = Color(red: 0.065, green: 0.065, blue: 0.075)
     static let pageInset: CGFloat = 16
     static let rowIconSize: CGFloat = 17
     static let rowIconFrame: CGFloat = 28
@@ -81,18 +81,18 @@ struct AppSearchField: View {
         .padding(.horizontal, 11)
         .frame(minHeight: 36)
         .background(
-            Color.white.opacity(0.92),
+            AppTheme.cardBackground.opacity(0.96),
             in: RoundedRectangle(cornerRadius: 10, style: .continuous)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .stroke(Color.black.opacity(0.10), lineWidth: 1)
+                .stroke(AppTheme.accent.opacity(0.28), lineWidth: 1)
                 .padding(.horizontal, AppTheme.pageInset)
                 .padding(.vertical, 8)
         )
         .padding(.horizontal, AppTheme.pageInset)
         .padding(.vertical, 8)
-        .background(Color.white.opacity(0.72))
+        .background(AppTheme.consoleBackground.opacity(0.72))
     }
 }
 
@@ -101,14 +101,14 @@ struct AppLogo: View {
 
     var body: some View {
         Group {
-            if let logo = UIImage(named: "GllyziLogo") {
+            if let logo = UIImage(named: "LaCosaNostraLogo") {
                 Image(uiImage: logo)
                     .resizable()
                     .scaledToFit()
                     .padding(size * 0.12)
                     .background(
                         LinearGradient(
-                            colors: [Color.white, Color.black.opacity(0.08)],
+                            colors: [AppTheme.cardBackground, AppTheme.accent.opacity(0.16)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -120,7 +120,7 @@ struct AppLogo: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(
                         LinearGradient(
-                            colors: [Color.black, Color(red: 0.22, green: 0.22, blue: 0.24)],
+                            colors: [Color.black, AppTheme.accent.opacity(0.32)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -131,7 +131,7 @@ struct AppLogo: View {
         .clipShape(RoundedRectangle(cornerRadius: size * 0.22, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: size * 0.22, style: .continuous)
-                .stroke(.white.opacity(0.16), lineWidth: 1)
+                .stroke(AppTheme.accent.opacity(0.45), lineWidth: 1)
         )
         .accessibilityHidden(true)
     }
