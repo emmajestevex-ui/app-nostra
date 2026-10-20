@@ -1,11 +1,10 @@
-name: Build GLLYZI APP IPA
+name: Build LA COSA NOSTRA IPA
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-      - gllyzi-net
 
 jobs:
   build:
@@ -22,7 +21,7 @@ jobs:
       - name: Mostrar schemes disponibles
         run: xcodebuild -project ThreeOneOSFive.xcodeproj -list
 
-      - name: Compilar GLLYZI APP
+      - name: Compilar LA COSA NOSTRA
         run: |
           set -o pipefail
           xcodebuild \
@@ -64,29 +63,29 @@ jobs:
           mkdir -p Payload
           cp -R "$APP_PATH" Payload/
 
-          zip -r GLLYZI_APP_unsigned.ipa Payload
+          zip -r LA_COSA_NOSTRA_unsigned.ipa Payload
 
           echo "IPA creada correctamente:"
-          ls -lh GLLYZI_APP_unsigned.ipa
+          ls -lh LA_COSA_NOSTRA_unsigned.ipa
 
       - name: Subir IPA
         uses: actions/upload-artifact@v4
         with:
-          name: GLLYZI-APP-unsigned
-          path: GLLYZI_APP_unsigned.ipa
+          name: LA-COSA-NOSTRA-unsigned
+          path: LA_COSA_NOSTRA_unsigned.ipa
           if-no-files-found: error
           retention-days: 30
 
       - name: Empaquetar panel admin
         run: |
           set -euo pipefail
-          zip -r GLLYZI_ADMIN_panel.zip admin supabase/setup_all.sql supabase/licenses_setup.sql supabase/remote_content_setup.sql supabase/admin_emails_setup.sql
-          ls -lh GLLYZI_ADMIN_panel.zip
+          zip -r LA_COSA_NOSTRA_ADMIN_panel.zip admin supabase/setup_all.sql supabase/licenses_setup.sql supabase/remote_content_setup.sql supabase/admin_emails_setup.sql
+          ls -lh LA_COSA_NOSTRA_ADMIN_panel.zip
 
       - name: Subir panel admin
         uses: actions/upload-artifact@v4
         with:
-          name: GLLYZI-APP-admin-panel
-          path: GLLYZI_ADMIN_panel.zip
+          name: LA-COSA-NOSTRA-admin-panel
+          path: LA_COSA_NOSTRA_ADMIN_panel.zip
           if-no-files-found: error
           retention-days: 30
